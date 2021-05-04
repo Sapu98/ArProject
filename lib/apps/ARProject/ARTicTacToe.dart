@@ -55,7 +55,7 @@ class _ARTicTacToeState extends State<ARTicTacToe> {
     final board = ArCoreReferenceNode(
         name: "Board",
         objectUrl:
-            "https://raw.githubusercontent.com/Sapu98/ArProject/main/assets/board.gltf",
+            "https://raw.githubusercontent.com/Sapu98/ArProject/tree/master/assets/board.gltf",
         position: plane.pose.translation);
 
     arCoreController.addArCoreNodeWithAnchor(board);
@@ -67,7 +67,7 @@ class _ARTicTacToeState extends State<ARTicTacToe> {
     final node = ArCoreReferenceNode(
       name: "X_$index",
       objectUrl:
-          "https://raw.githubusercontent.com/Sapu98/ArProject/main/assets/x.gltf",
+          "https://raw.githubusercontent.com/Sapu98/ArProject/tree/master/assets/x.gltf",
       position: vector.Vector3(
           plane.pose.translation[0] + (0.22 * x) - 0.22,
           plane.pose.translation[1] + 0.01,
@@ -82,7 +82,7 @@ class _ARTicTacToeState extends State<ARTicTacToe> {
     int y = index % 3;
     final node = ArCoreReferenceNode(
       name: "O_$index",
-      objectUrl: "https://raw.githubusercontent.com/Sapu98/ArProject/main/assets/o.gltf",
+      objectUrl: "https://raw.githubusercontent.com/Sapu98/ArProject/tree/master/assets/o.gltf",
       position: vector.Vector3(
           plane.pose.translation[0] + (0.22 * x) - 0.22,
           plane.pose.translation[1] + 0.01,
