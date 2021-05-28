@@ -13,18 +13,9 @@ class ARTicTacToe extends StatefulWidget {
 class _ARTicTacToeState extends State<ARTicTacToe> {
   ArCoreController arCoreController;
 
-  var displayXO = [
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-  ];
-  bool OTurn = true;
+  //array contenente le caselle del gioco
+  var displayXO = ['', '', '', '', '', '', '', '', '',];
+  bool oTurn = true;
   bool playing = false;
   int filledBoxes = 0;
   final _random = new Random();
@@ -47,15 +38,14 @@ class _ARTicTacToeState extends State<ARTicTacToe> {
 
   void _onArCoreViewCreated(ArCoreController controller) {
     arCoreController = controller;
-    arCoreController.onNodeTap = (name) => onTapHandler(name);
+    arCoreController.onNodeTap = (name) => _onTapHandler(name);
     arCoreController.onPlaneTap = _handleOnPlaneTap;
   }
 
   void _addBoard(ArCoreHitTestResult plane) {
     final board = ArCoreReferenceNode(
         name: "Board",
-        objectUrl:
-            "https://raw.githubusercontent.com/Sapu98/ArProject/master/assets/board.gltf",
+        objectUrl: "https://raw.githubusercontent.com/Sapu98/ArProject/master/assets/board.gltf",
         position: plane.pose.translation);
 
     arCoreController.addArCoreNodeWithAnchor(board);
@@ -66,8 +56,7 @@ class _ARTicTacToeState extends State<ARTicTacToe> {
     int y = index % 3;
     final node = ArCoreReferenceNode(
       name: "X_$index",
-      objectUrl:
-          "https://raw.githubusercontent.com/Sapu98/ArProject/master/assets/x.gltf",
+      objectUrl: "https://raw.githubusercontent.com/Sapu98/ArProject/master/assets/x.gltf",
       position: vector.Vector3(
           plane.pose.translation[0] + (0.22 * x) - 0.22,
           plane.pose.translation[1] + 0.01,
@@ -96,7 +85,7 @@ class _ARTicTacToeState extends State<ARTicTacToe> {
     int y = index % 3;
     final node = ArCoreReferenceNode(
       name: "Empty_$index",
-      objectUrl: "assets/empty.gltf",
+      objectUrl: "https://raw.githubusercontent.com/Sapu98/ArProject/master/assets/empty.gltf",
       position: vector.Vector3(
           plane.pose.translation[0] + (0.22 * x) - 0.22,
           plane.pose.translation[1] + 0.02,
@@ -120,7 +109,7 @@ class _ARTicTacToeState extends State<ARTicTacToe> {
     }
   }
 
-  void onTapHandler(String name) {
+  void _onTapHandler(String name) {
     if (name.contains("Empty")) {
       int index = int.parse(name.substring(6));
       _tapped(index);
@@ -135,20 +124,20 @@ class _ARTicTacToeState extends State<ARTicTacToe> {
 
   void _tapped(int index) {
     setState(() {
-      if (OTurn && displayXO[index] == '') {
+      if (oTurn && displayXO[index] == '') {
         displayXO[index] = 'O';
         filledBoxes++;
         _addO(plane, index);
-      } else if (!OTurn && displayXO[index] == '') {
+      } else if (!oTurn && displayXO[index] == '') {
         displayXO[index] = 'X';
         filledBoxes++;
         _addX(plane, index);
       }
       arCoreController.removeNode(nodeName: "Empty_$index");
-      OTurn = !OTurn;
+      oTurn = !oTurn;
       _checkWinner();
     });
-    if (playing && filledBoxes<8) {
+    if (playing && filledBoxes < 8) {
       _aiMove();
     }
   }
@@ -168,18 +157,18 @@ class _ARTicTacToeState extends State<ARTicTacToe> {
   void _aiMove() {
     int index = getRandomEmpty();
     setState(() {
-      if (OTurn && displayXO[index] == '') {
+      if (oTurn && displayXO[index] == '') {
         displayXO[index] = 'O';
         filledBoxes += 1;
         _addO(plane, index);
-      } else if (!OTurn && displayXO[index] == '') {
+      } else if (!oTurn && displayXO[index] == '') {
         displayXO[index] = 'X';
         filledBoxes += 1;
         _addX(plane, index);
       }
     });
     arCoreController.removeNode(nodeName: "Empty_$index");
-    OTurn = !OTurn;
+    oTurn = !oTurn;
     _checkWinner();
   }
 
